@@ -1,0 +1,19 @@
+#include <stdio.h>
+#include <locale.h>
+
+imprimeLinha (int qtd){
+    int i;
+    printf("\n");
+    for(i=1; i<=qtd; i++) {
+        printf("*");
+}
+printf("\n");
+}
+
+main() {
+    setlocale (LC_ALL, "Portuguese");
+
+    imprimeLinha(15);
+    printf("Olá mundo!");
+    imprimeLinha (15);
+}
