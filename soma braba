@@ -1,0 +1,13 @@
+#include <stdio.h>
+
+int main() {
+    int C = 0; 
+    int A = 1;
+    while (A != 0) {
+        scanf("%d", &A); 
+        C += A; 
+    }
+
+    printf("%d\n", C); 
+    return 0;
+}
