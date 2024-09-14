@@ -1,0 +1,16 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int a;
+    printf("insira um numero inteiro: ");
+    scanf("%d", &a);
+    if(a % 2 == 0){
+        printf("o numero eh par");
+    }
+    else{
+       printf("O NUMERO EH IMPAR");
+    }
+    return 0;
+}
