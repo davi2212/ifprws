@@ -1,0 +1,13 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int X, i, Y;
+    scanf("%d", &X);
+    for(i = 0; i <= 10; i++){
+            Y = X * i;
+            printf("\n %d vezes %d eh:  %d  ", X, i, Y);
+    }
+    return 0;
+}
