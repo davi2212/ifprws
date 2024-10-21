@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+int fatorial(int n) {
+    int resultado = 1;
+
+    for (int i = 2; i <= n; i++) {
+        resultado *= i;
+    }
+
+    return resultado;
+}
+
+int main() {
+    int numero;
+
+    printf("Digite um número para calcular o fatorial: ");
+    scanf("%d", &numero);
+
+    if (numero < 0) {
+        printf("Fatorial não é definido para números negativos.\n");
+    } else {
+        int resultado = fatorial(numero);
+        printf("%d! = %d\n", numero, resultado);
+    }
+
+    return 0;
+}
