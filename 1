@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+int main() {
+    float n;
+
+    while (1) {
+        printf("Digite a sua nota: ");
+        scanf("%f", &n);
+
+        if (n < 0 || n > 10) {
+            printf("Nota invalida. A nota deve estar entre 0 e 10.\n");
+        } else {
+            break;
+        }
+    }    if (n < 3) {
+        printf("E\n");
+    } else if (n < 6) {
+        printf("D\n");
+    } else if (n < 7.5) {
+        printf("C\n");
+    } else if (n < 9) {
+        printf("B\n");
+    } else {
+        printf("A\n");
+    }
+
+    return 0;
+}
