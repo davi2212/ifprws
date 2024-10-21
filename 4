@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include<locale.h>
+
+int main() {
+    float V, I, R;
+    int aEscolha;
+
+    printf("Escolha o que você deseja calcular:\n");
+    setlocale(LC_ALL, "Portuguese");
+    printf("1. Tensão (V)\n");
+    printf("2. Corrente (I)\n");
+    printf("3. Resistência (R)\n");
+    printf("Digite sua escolha: ");
+    scanf("%d", &aEscolha);
+
+    switch (aEscolha) {
+        case 1:
+            printf("Digite a corrente (I) em amperes: ");
+            scanf("%f", &I);
+            printf("Digite a resistência (R) em ohms: ");
+            scanf("%f", &R);
+            V = I * R;
+            printf("A tensão (V) é: %.2f volts\n", V);
+            break;
+
+        case 2:
+            printf("Digite a tensão (V) em volts: ");
+            scanf("%f", &V);
+            printf("Digite a resistência (R) em ohms: ");
+            scanf("%f", &R);
+            I = V / R;
+            printf("A corrente (I) é: %.2f amperes\n", I);
+            break;
+
+        case 3:
+            printf("Digite a tensão (V) em volts: ");
+            scanf("%f", &V);
+            printf("Digite a corrente (I) em amperes: ");
+            scanf("%f", &I);
+            R = V / I;
+            printf("A resistência (R) é: %.2f ohms\n", R);
+            break;
+
+        default:
+            printf("Escolha inválida!\n");
+    }
+
+    return 0;
+}
