@@ -1,5 +1,4 @@
-// For: É geralmente usado quando o número de iterações é conhecido antes do início do loop.
-// While: É usado quando o número de iterações não é conhecido antecipadamente e depende de uma condição.
+
 #include <stdio.h>  
 #include <locale.h>
 int For() {  
@@ -28,7 +27,9 @@ int main() {
 
     int opcao;
     do {
-        printf("*** MENU ***\n");
+        printf("    For: É geralmente usado quando o número de iterações é conhecido antes do início do loop.\n");
+        printf("\n  While: É usado quando o número de iterações não é conhecido antecipadamente e depende de uma condição.\n");
+        printf("\n*** MENU ***\n");
         printf("1 - For\n");
         printf("2 - While\n");
         printf("3 - Sair\n");
