@@ -1,0 +1,14 @@
+#include <stdio.h>  
+#include <stdlib.h>  
+
+float area(float a, float b) { return (a * b); }  
+float perimetro(float a, float b) { return (a * 2 + b * 2); }  
+
+int main() {  
+    float b, a;  
+    printf("Entre com a base e altura do retangulo:\n");  
+    scanf("%f %f", &a, &b);  
+    printf("A area do retangulo e: %.2f \n", area(a, b));  
+    printf("O perimetro do retangulo e: %.2f\n", perimetro(a, b));  
+    return 0;  
+}
