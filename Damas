@@ -1,0 +1,139 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define BOARD_SIZE 8
+
+// Função para inicializar o tabuleiro de damas
+void initializeBoard(char board[BOARD_SIZE][BOARD_SIZE]) {
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        for (int j = 0; j < BOARD_SIZE; j++) {
+            if ((i + j) % 2 == 1) { // Apenas casas escuras têm peças
+                if (i < 3) {
+                    board[i][j] = 'p'; // Peças pretas
+                } else if (i > 4) {
+                    board[i][j] = 'b'; // Peças brancas
+                } else {
+                    board[i][j] = '.'; // Casa escura vazia
+                }
+            } else {
+                board[i][j] = ' '; // Casa clara
+            }
+        }
+    }
+}
+
+// Função para imprimir o tabuleiro
+void printBoard(char board[BOARD_SIZE][BOARD_SIZE]) {
+    printf("\n  a b c d e f g h\n");
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        printf("%d ", 8 - i);
+        for (int j = 0; j < BOARD_SIZE; j++) {
+            printf("%c ", board[i][j]);
+        }
+        printf("%d\n", 8 - i);
+    }
+    printf("  a b c d e f g h\n\n");
+}
+
+// Função para converter entrada de movimento (ex: b6 c5) em índices do tabuleiro
+int parseMove(char *move, int *fromRow, int *fromCol, int *toRow, int *toCol) {
+    if (strlen(move) != 5 || move[2] != ' ') {
+        return 0; // Formato inválido
+    }
+
+    *fromCol = move[0] - 'a';
+    *fromRow = 8 - (move[1] - '0');
+    *toCol = move[3] - 'a';
+    *toRow = 8 - (move[4] - '0');
+
+    return (*fromRow >= 0 && *fromRow < BOARD_SIZE && *fromCol >= 0 && *fromCol < BOARD_SIZE &&
+            *toRow >= 0 && *toRow < BOARD_SIZE && *toCol >= 0 && *toCol < BOARD_SIZE);
+}
+
+// Função para realizar o movimento no tabuleiro
+int makeMove(char board[BOARD_SIZE][BOARD_SIZE], char *move, int turn) {
+    int fromRow, fromCol, toRow, toCol;
+
+    if (!parseMove(move, &fromRow, &fromCol, &toRow, &toCol)) {
+        printf("Movimento inválido! Use o formato correto (ex: b6 c5).\n");
+        return 0;
+    }
+
+    char piece = board[fromRow][fromCol];
+    char target = board[toRow][toCol];
+
+    // Verifica se a peça pertence ao jogador atual
+    if ((turn == 1 && piece != 'b' && piece != 'B') || (turn == -1 && piece != 'p' && piece != 'P')) {
+        printf("Você só pode mover suas próprias peças!\n");
+        return 0;
+    }
+
+    // Verifica se o destino está vazio
+    if (target != '.') {
+        printf("O destino deve estar vazio!\n");
+        return 0;
+    }
+
+    // Verifica se o movimento é válido (movimento simples ou captura)
+    int direction = (turn == 1) ? -1 : 1; // Brancas sobem (-1), pretas descem (+1)
+    if (toRow == fromRow + direction && abs(toCol - fromCol) == 1) {
+        // Movimento simples
+        board[toRow][toCol] = piece;
+        board[fromRow][fromCol] = '.';
+    } else if (toRow == fromRow + 2 * direction && abs(toCol - fromCol) == 2) {
+        // Captura
+        int midRow = (fromRow + toRow) / 2;
+        int midCol = (fromCol + toCol) / 2;
+        char captured = board[midRow][midCol];
+
+        // Verifica se há uma peça adversária para capturar
+        if ((turn == 1 && (captured == 'p' || captured == 'P')) || (turn == -1 && (captured == 'b' || captured == 'B'))) {
+            board[toRow][toCol] = piece;
+            board[fromRow][fromCol] = '.';
+            board[midRow][midCol] = '.';
+        } else {
+            printf("Você só pode capturar peças adversárias!\n");
+            return 0;
+        }
+    } else {
+        printf("Movimento inválido!\n");
+        return 0;
+    }
+
+    // Promoção para dama
+    if (toRow == 0 && piece == 'b') {
+        board[toRow][toCol] = 'B';
+    } else if (toRow == BOARD_SIZE - 1 && piece == 'p') {
+        board[toRow][toCol] = 'P';
+    }
+
+    return 1;
+}
+
+int main() {
+    char board[BOARD_SIZE][BOARD_SIZE];
+    char move[10];
+    int turn = 1; // 1 para brancas, -1 para pretas
+
+    initializeBoard(board);
+    printf("Bem-vindo ao jogo de damas simplificado!\n");
+
+    while (1) {
+        printBoard(board);
+        printf("%s a jogar. Digite seu movimento (ex: b6 c5): ", turn == 1 ? "Brancas" : "Pretas");
+        fgets(move, sizeof(move), stdin);
+        move[strcspn(move, "\n")] = 0; // Remove o '\n' da entrada
+
+        if (strcmp(move, "sair") == 0) {
+            printf("Jogo encerrado!\n");
+            break;
+        }
+
+        if (makeMove(board, move, turn)) {
+            turn = -turn; // Alterna entre brancas e pretas
+        }
+    }
+
+    return 0;
+}
