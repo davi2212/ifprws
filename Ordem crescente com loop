@@ -1,0 +1,33 @@
+#include <stdio.h>  
+
+int main(void) {  
+    float numeros[10] = {5.6, 4.3, 6.2, 6.4, 7.3, 2.3, 8.3, 9.2, 0.1, 1.9};  
+    int i, j;  
+    float temp;  
+
+    // Bubble sort em ordem decrescente  
+    for (i = 0; i < 10 - 1; i++) {  
+        for (j = 0; j < 10 - i - 1; j++) {  
+            if (numeros[j] < numeros[j + 1]) {  
+                // Trocar numeros[j] e numeros[j + 1]  
+                temp = numeros[j];  
+                numeros[j] = numeros[j + 1];  
+                numeros[j + 1] = temp;  
+            }  
+        }  
+
+        // Imprimir o array após cada iteração do loop interno  
+        for (int k = 0; k < 10; k++) {  
+            printf("%.2f ", numeros[k]);  
+        }  
+        printf("\n");  
+    }  
+
+    // Array final ordenado  
+    for (i = 0; i < 10; i++) {  
+        printf("%.2f ", numeros[i]);  
+    }  
+    printf("\n");  
+
+    return 0;  
+}
