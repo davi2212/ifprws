@@ -1,0 +1,101 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define BOARD_SIZE 8
+
+// Função para inicializar o tabuleiro de xadrez
+void initializeBoard(char board[BOARD_SIZE][BOARD_SIZE]) {
+    const char *initialRows[2] = {"rnbqkbnr", "pppppppp"}; // Peças iniciais
+    const char emptyRow[BOARD_SIZE] = "........";            // Linha vazia
+
+    // Coloca as peças brancas (linha 7 e 6)
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        board[0][i] = initialRows[0][i];
+        board[1][i] = initialRows[1][i];
+        board[6][i] = initialRows[1][i] - 32; // Peças brancas (letras maiúsculas)
+        board[7][i] = initialRows[0][i] - 32;
+    }
+
+    // Preenche linhas vazias
+    for (int i = 2; i < 6; i++) {
+        for (int j = 0; j < BOARD_SIZE; j++) {
+            board[i][j] = '.';
+        }
+    }
+}
+
+// Função para imprimir o tabuleiro
+void printBoard(char board[BOARD_SIZE][BOARD_SIZE]) {
+    printf("\n  a b c d e f g h\n");
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        printf("%d ", 8 - i);
+        for (int j = 0; j < BOARD_SIZE; j++) {
+            printf("%c ", board[i][j]);
+        }
+        printf("%d\n", 8 - i);
+    }
+    printf("  a b c d e f g h\n\n");
+}
+
+// Função para converter entrada de movimento (ex: e2 e4) em índices do tabuleiro
+int parseMove(char *move, int *fromRow, int *fromCol, int *toRow, int *toCol) {
+    if (strlen(move) != 5 || move[2] != ' ') {
+        return 0; // Formato inválido
+    }
+
+    *fromCol = move[0] - 'a';
+    *fromRow = 8 - (move[1] - '0');
+    *toCol = move[3] - 'a';
+    *toRow = 8 - (move[4] - '0');
+
+    return (*fromRow >= 0 && *fromRow < BOARD_SIZE && *fromCol >= 0 && *fromCol < BOARD_SIZE &&
+            *toRow >= 0 && *toRow < BOARD_SIZE && *toCol >= 0 && *toCol < BOARD_SIZE);
+}
+
+// Função para realizar o movimento no tabuleiro
+int makeMove(char board[BOARD_SIZE][BOARD_SIZE], char *move) {
+    int fromRow, fromCol, toRow, toCol;
+
+    if (!parseMove(move, &fromRow, &fromCol, &toRow, &toCol)) {
+        printf("Movimento inválido! Use o formato correto (ex: e2 e4).\n");
+        return 0;
+    }
+
+    if (board[fromRow][fromCol] == '.') {
+        printf("Não há peça na posição de origem!\n");
+        return 0;
+    }
+
+    // Movimento válido
+    board[toRow][toCol] = board[fromRow][fromCol];
+    board[fromRow][fromCol] = '.';
+    return 1;
+}
+
+int main() {
+    char board[BOARD_SIZE][BOARD_SIZE];
+    char move[10];
+    int turn = 1; // 1 para brancas, -1 para pretas
+
+    initializeBoard(board);
+    printf("Bem-vindo ao jogo de xadrez simplificado!\n");
+
+    while (1) {
+        printBoard(board);
+        printf("%s a jogar. Digite seu movimento (ex: e2 e4): ", turn == 1 ? "Brancas" : "Pretas");
+        fgets(move, sizeof(move), stdin);
+        move[strcspn(move, "\n")] = 0; // Remove o '\n' da entrada
+
+        if (strcmp(move, "sair") == 0) {
+            printf("Jogo encerrado!\n");
+            break;
+        }
+
+        if (makeMove(board, move)) {
+            turn = -turn; // Alterna entre brancas e pretas
+        }
+    }
+
+    return 0;
+}
