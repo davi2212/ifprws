@@ -1,0 +1,49 @@
+#include <stdio.h>
+
+// Função para calcular os primeiros 10 números da sequência de Fibonacci
+void calculateFibonacci(int fibonacci[]) {
+    fibonacci[0] = 1;
+    fibonacci[1] = 1;
+    for (int i = 2; i < 10; i++) {
+        fibonacci[i] = fibonacci[i - 1] + fibonacci[i - 2];
+    }
+}
+
+// Função para imprimir todos os números de Fibonacci
+void printAllFibonacci(int fibonacci[]) {
+    for (int i = 0; i < 10; i++) {
+        printf("%d\n", fibonacci[i]);
+    }
+}
+
+// Função para imprimir os números ímpares de Fibonacci (1º, 3º, 5º, ...)
+void printOddFibonacci(int fibonacci[]) {
+    for (int i = 0; i < 10; i += 2) {
+        printf("%d\n", fibonacci[i]);
+    }
+}
+
+// Função para imprimir os números pares de Fibonacci (2º, 4º, 6º, ...)
+void printEvenFibonacci(int fibonacci[]) {
+    for (int i = 1; i < 10; i += 2) {
+        printf("%d\n", fibonacci[i]);
+    }
+}
+
+int main() {
+    int fibonacci[10];
+
+    // Calcula a sequência de Fibonacci
+    calculateFibonacci(fibonacci);
+
+    // Imprime os 10 primeiros números de Fibonacci
+    printAllFibonacci(fibonacci);
+
+    // Imprime apenas os números ímpares
+    printOddFibonacci(fibonacci);
+
+    // Imprime apenas os números pares
+    printEvenFibonacci(fibonacci);
+
+    return 0;
+}
